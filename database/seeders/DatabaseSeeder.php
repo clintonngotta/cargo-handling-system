@@ -10,33 +10,34 @@ use Illuminate\Database\Seeder;
 
 /**
  * Demo data. Model events stay enabled on purpose: the observers derive the
- * transit loss and guard tank capacity.
+ * transit loss and guard tank capacity. Records are created without factories
+ * because Faker is a dev dependency and is not installed in production.
  */
 class DatabaseSeeder extends Seeder
 {
     public function run(IngestMovementLogs $ingestMovementLogs): void
     {
-        User::factory()->create([
+        User::query()->create([
             'name' => 'Terminal Operator',
             'email' => 'operator@bulkstream.test',
             'password' => 'password',
         ]);
 
-        StorageTank::factory()->create([
+        StorageTank::query()->create([
             'code' => 'CPO-01',
             'name' => 'Crude Palm Oil Tank 1',
             'commodity' => Commodity::CrudePalmOil,
             'capacity_litres' => 5_000_000,
         ]);
 
-        StorageTank::factory()->create([
+        StorageTank::query()->create([
             'code' => 'CPOL-01',
             'name' => 'Crude Palm Olein Tank 1',
             'commodity' => Commodity::CrudePalmOlein,
             'capacity_litres' => 3_000_000,
         ]);
 
-        StorageTank::factory()->create([
+        StorageTank::query()->create([
             'code' => 'PFAD-01',
             'name' => 'Palm Fatty Acid Distillate Tank 1',
             'commodity' => Commodity::PalmFattyAcidDistillate,
