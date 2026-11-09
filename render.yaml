@@ -1,0 +1,33 @@
+databases:
+  - name: cargo-db
+    plan: free
+    databaseName: cargo_control
+    user: cargo
+
+services:
+  - type: web
+    name: bulkstream-cargo-control
+    runtime: docker
+    plan: free
+    healthCheckPath: /up
+    envVars:
+      - key: APP_NAME
+        value: Bulkstream Cargo Control
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_KEY
+        sync: false
+      - key: APP_URL
+        sync: false
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_URL
+        fromDatabase:
+          name: cargo-db
+          property: connectionString
+      - key: SEED_DEMO_DATA
+        value: "true"
