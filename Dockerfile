@@ -2,6 +2,10 @@ FROM dunglas/frankenphp:php8.5-bookworm
 
 RUN install-php-extensions pdo_pgsql pdo_mysql intl zip bcmath opcache
 
+# The binary ships with a capability for binding ports below 1024. Hosts such as
+# Render refuse to run binaries that carry it, and this app listens on 8080.
+RUN setcap -r /usr/local/bin/frankenphp
+
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
